@@ -16,7 +16,7 @@ addEventListener('message', ({ data }) => {
 
     const workSheetsList= workBook.SheetNames;
 
-    console.log(workSheetsList);
+    //console.log(workSheetsList);
 
     for(let i of workSheetsList){
       const workSheet: XLSX.WorkSheet = workBook.Sheets[i];
