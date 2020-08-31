@@ -1,0 +1,11 @@
+{"templateData": [
+        {"columnName":"emp_id","columnId": "1"},
+        {"columnName":"emp_name","columnId": "2"},
+        {"columnName":"emp_role","columnId": "3"}
+    ],
+    "attributeList": [
+        {"attributeId": "1","columnId": "1","mandotory":"1","columnName":"emp_id"},
+        {"attributeId": "2","columnId": "2","mandotory":"1","columnName":"emp_name"},
+        {"attributeId": "3","columnId": "3","mandotory":"1","columnName":"emp_role"}
+    ]
+}
