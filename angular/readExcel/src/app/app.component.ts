@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 import { ExcelDataService } from "./shared/services/excel-data.service";
 
@@ -34,10 +35,11 @@ export class AppComponent {
   dataSource: MatTableDataSource<object>;
 
   readFileSubsciber: Subscription;
+  validateFileSubscriber: Subscription;
 
   showTable: boolean = false;
 
-  constructor(private http: HttpClient, private excelService: ExcelDataService) { }
+  constructor(private http: HttpClient, private excelService: ExcelDataService,private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.getJSON(1).subscribe(data => {
@@ -84,10 +86,19 @@ export class AppComponent {
     this.tableHead = this.excelSheetData[sheetName]['sheetHeader'];
     const tableData = this.prepareTableData(this.excelSheetData[sheetName]['sheetData'], this.tableHead);
     console.log(this.tableHead);
-
+    
     this.showTable = true;
+    
+    this.excelService.validateExcelSheet(this.excelValidationData,tableData,this.excelSheetData[sheetName]['sheetHeader']);
 
-    this.excelService.validateExcelSheet(this.excelValidationData,tableData)
+    this.validateFileSubscriber = this.excelService.validatedExcelData.subscribe(data =>{
+      const validationData = data;
+      console.log(validationData);
+      this._snackBar.open('status: ' + validationData['status']+  ' ' + validationData['message'] , '', {
+        duration: 2000,
+      });
+    })
+    
     
     this.dataSource = new MatTableDataSource<object>(tableData);
     this.dataSource.paginator = this.paginator;

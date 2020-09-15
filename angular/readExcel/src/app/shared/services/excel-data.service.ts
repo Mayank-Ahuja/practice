@@ -27,14 +27,14 @@ export class ExcelDataService {
       // You should add a fallback so that your program still executes correctly.
     }
   }
-  validateExcelSheet(validationData: object, excelFileData: Array<object>){
-    const validate = {validation: validationData, data: excelFileData}
+  validateExcelSheet(validationData: object, excelFileData: Array<object>,excelSheetHeader: Array<string>){
+    const validate = {validation: validationData, data: excelFileData,excelHeaders: excelSheetHeader}
     if (typeof Worker !== 'undefined') {
       // Create a new
       const worker = new Worker('../webWorkers/validate-excel.worker', { type: 'module' });
       worker.onmessage = ({ data }) => {
-        //this.validatedData.next(data);        
-        console.log(data)
+        console.log(data);
+        this.validatedData.next(data);        
       };
       worker.postMessage(validate);
     } else {
