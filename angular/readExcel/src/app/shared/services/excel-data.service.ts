@@ -14,14 +14,15 @@ export class ExcelDataService {
 
   constructor() { }
 
-  readExcelSheet(file: object){
+  readExcelSheet(file: object, validationData: object){
+    const excelData = {file: file, validators: validationData};
     if (typeof Worker !== 'undefined') {
       // Create a new
       const worker = new Worker('../webWorkers/read-excel.worker', { type: 'module' });
       worker.onmessage = ({ data }) => {
         this.excelData.next(data);        
       };
-      worker.postMessage(file);
+      worker.postMessage(excelData);
     } else {
       // Web workers are not supported in this environment.
       // You should add a fallback so that your program still executes correctly.

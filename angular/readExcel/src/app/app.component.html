@@ -20,12 +20,12 @@
   Loading....
 </div>
 
-<button *ngIf="!enableDataUpload" mat-raised-button class="fileInputButton" color="primary" (click)="fileInput.click()">
+<button *ngIf="!sheetSelected" mat-raised-button class="fileInputButton" color="primary" (click)="fileInput.click()">
   <span>Select File</span>
   <input type="file" id="fileInput" #fileInput (change)="fileSelected($event)">
 </button>
 
-  <div [ngClass]="{'d-block': showTable,'d-none': !showTable}">
+  <div>
     <mat-form-field appearance="fill" *ngIf="sheetsList.length > 1">
       <mat-label>Choose an option</mat-label>
       <mat-select (selectionChange)="getSelectedSheetData(sheetName)" [(ngModel)]="sheetName">
@@ -33,7 +33,7 @@
       </mat-select>
     </mat-form-field>
 
-    <div [ngClass]="{'d-block': enableDataUpload,'d-none': !enableDataUpload}">
+    <div [ngClass]="{'d-none': !validSheetData,'d-block': validSheetData}">
       <div class="table-responsive">
         <table class="table table-hover" mat-table [dataSource]="dataSource">
       

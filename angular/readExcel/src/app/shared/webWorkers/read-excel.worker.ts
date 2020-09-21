@@ -1,34 +1,68 @@
 /// <reference lib="webworker" />
 
 import * as XLSX from 'xlsx';
-
+import * as moment from 'moment';
 addEventListener('message', ({ data }) => {
-  console.log(data);
+  console.log('data given to  read excel worker: ',data);
 
   const excelData = {};
-  //console.log(JSON.parse(data));
 
   const reader: FileReader = new FileReader();
   reader.onload = (e:any) => {
     const binaryString: string = e.target.result;
-    // console.log(binaryString);
-    const workBook: XLSX.WorkBook = XLSX.read(binaryString,{type: 'binary'});
-
+    const workBook: XLSX.WorkBook = XLSX.read(binaryString,{type: 'binary',cellDates: false});
     const workSheetsList= workBook.SheetNames;
-
-    //console.log(workSheetsList);
 
     for(let i of workSheetsList){
       const workSheet: XLSX.WorkSheet = workBook.Sheets[i];
-      const currentSheetData = <any>(XLSX.utils.sheet_to_json(workSheet,{header:1}))
-      excelData[i] = {sheetHeader: currentSheetData.shift(),sheetData: currentSheetData}
+      const currentSheetData = <any>(XLSX.utils.sheet_to_json(workSheet,{header:1}));
+      excelData[i] = prepareTableData({sheetHeader: currentSheetData.shift(),sheetData: currentSheetData})
     }
-    console.log(excelData);
 
-    //const response = `worker response to ${data}`;
+    const dateTypeHeaders = [];
+
+    for(let i of data['validators']){
+      if(i['dataType'] === 'date'){
+        dateTypeHeaders.push(i['columnName']);
+      }
+    }
+
+    console.log('raw excelData: ',excelData);
+    console.log('date type headers: ', dateTypeHeaders);
+
+    for (let dateColumn of dateTypeHeaders){
+      for(let sheetName of workSheetsList){
+        for(let sheetData of excelData[sheetName]['sheetData']){
+          const sheetColumns = Object.keys(sheetData);
+          if(sheetColumns.indexOf(dateColumn) > -1){
+            console.log('before date: ',sheetData);
+            sheetData[dateColumn] = excelDateToISODateString(sheetData[dateColumn]);
+            console.log('after date: ',sheetData);
+          }
+        }
+      }
+    }
+
+    console.log('processed excelData: ',excelData);
     postMessage(excelData);
   }
 
-  reader.readAsBinaryString(data)
+  reader.readAsBinaryString(data['file']);
   
 });
+
+function prepareTableData(sheetObj) {
+  const sheetData = [];
+  sheetObj['sheetData'].map(item => {
+    let obj = {};
+    for (let i in sheetObj['sheetHeader']) {
+      obj[sheetObj['sheetHeader'][i]] = item[i] || '';
+    }
+    sheetData.push(obj);
+  })
+  return {sheetData: sheetData , sheetHeader: sheetObj['sheetHeader']};
+}
+
+function excelDateToISODateString(excelDateNumber) {
+  return new Date(Math.round((excelDateNumber - 25569) * 86400 * 1000)).toISOString().substring(0, 10);
+}

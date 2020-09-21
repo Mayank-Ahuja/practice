@@ -20,11 +20,12 @@ export class AppComponent {
   excelSheetData: object;
   showLoader: boolean = false;
 
-  adhaarNumberText: string = '';
-  adhaarNumber: string = '';
   sheetName: string = '';
   sheetsList: Array<string> = [];
-  enableDataUpload: boolean = false;
+
+  sheetSelected: boolean = false;
+  validSheetData: boolean = false;
+
 
   excelValidationData: any;
 
@@ -65,18 +66,15 @@ export class AppComponent {
 
   readFile(file: object): void {
 
-    this.excelService.readExcelSheet(file);
-    this.showLoader = true;
+    this.excelService.readExcelSheet(file,this.excelValidationData['templateData']);
     this.readFileSubsciber = this.excelService.readExcelData.subscribe(excelData => {
       if (Object.keys(excelData).length > 0) {
         this.excelSheetData = excelData;
-        console.log(excelData);
-        this.enableDataUpload = true;
         this.sheetsList = Object.keys(excelData);
         if (Object.keys(excelData).length == 1) {
           this.getSelectedSheetData(this.sheetsList[0]);
         }
-        this.showLoader = false;
+        this.sheetSelected = true;
         this.readFileSubsciber.unsubscribe();
       }
     });
@@ -84,11 +82,8 @@ export class AppComponent {
 
   getSelectedSheetData(sheetName: string): void {
     this.tableHead = this.excelSheetData[sheetName]['sheetHeader'];
-    const tableData = this.prepareTableData(this.excelSheetData[sheetName]['sheetData'], this.tableHead);
-    console.log(this.tableHead);
-    
-    this.showTable = true;
-    
+    const tableData = this.excelSheetData[sheetName]['sheetData'];
+      
     this.excelService.validateExcelSheet(this.excelValidationData,tableData,this.excelSheetData[sheetName]['sheetHeader']);
 
     this.validateFileSubscriber = this.excelService.validatedExcelData.subscribe(data =>{
@@ -97,11 +92,15 @@ export class AppComponent {
       this._snackBar.open('status: ' + validationData['status']+  ' ' + validationData['message'] , '', {
         duration: 2000,
       });
+      if(validationData['status']){
+        this.validSheetData = true;
+        this.dataSource = new MatTableDataSource<object>(tableData);
+        this.dataSource.paginator = this.paginator;
+      }
     })
     
     
-    this.dataSource = new MatTableDataSource<object>(tableData);
-    this.dataSource.paginator = this.paginator;
+    
   }
 
   prepareTableData(tableRecords: Array<any>, tableHeader: Array<string>): Array<object> {
