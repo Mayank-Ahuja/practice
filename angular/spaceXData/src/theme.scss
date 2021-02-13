@@ -6,12 +6,5 @@
 
 .row{
     display: flex;
-    flex-flow: column wrap;
-    >[class^="col-"]{
-        padding: 0 15px;
-    }
-}
-
-.col-12{
-    width: 100%;
-}
+    flex-flow: row wrap;
+} 

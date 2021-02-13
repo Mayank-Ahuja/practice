@@ -1,1 +1,11 @@
-<p>filter-buttons works!</p>
+<div class="btn-containers">
+    <ng-container *ngFor="let radioBtn of radioButtonsData; trackBy: radioBtnFn">
+        <div class="btn-wrap">
+            <span class="filter-btns" (click)="setValue(radioBtn['name'],radioBtn['value'])">
+                <input role="toggle-filter" class="radio-btn" id="{{radioBtn['name']}}_{{radioBtn['value']}}" [(ngModel)]="ngModelContainer[radioBtn['name']]" type="radio" [value]="radioBtn['value']" [name]="radioBtn['name']"
+                    >
+                <span class="radio-name">{{radioBtn['value']}}</span>
+            </span>
+        </div>
+    </ng-container>
+</div>

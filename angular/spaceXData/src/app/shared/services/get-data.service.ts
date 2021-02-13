@@ -13,9 +13,9 @@ export class GetDataService {
   getProgramData(dataApiParams): Observable<Object>{
     let requestUrl = '';
     if(dataApiParams){
-      requestUrl = `https://api.spaceXdata.com/v3/launches?limit=50&${dataApiParams}`
+      requestUrl = `https://api.spaceXdata.com/v3/launches?limit=100&${dataApiParams}`
     }else{
-      requestUrl = `https://api.spaceXdata.com/v3/launches?limit=25`
+      requestUrl = `https://api.spaceXdata.com/v3/launches?limit=100`
     }
     return this.http.get(requestUrl).pipe(
       catchError(this.handleError)

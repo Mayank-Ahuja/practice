@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { GetDataService } from '../shared/services/get-data.service';
 
@@ -16,40 +16,34 @@ export class DataComponent implements OnInit {
   allowLoadMore: Boolean;
   queryParamsSubscription: Subscription;
 
-  private queryParams: object = {};
+  showLoader: boolean;
+
   private queryParamsString: string ='';
 
   constructor(private getData:GetDataService,
-              private route: ActivatedRoute,
-              private router: Router) { }
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    console.log('query params---- ',this.route.snapshot.queryParams);
-    //this.getProgramData();
-
+    /* subscribing to query params which gets triggered on the page load as well as when values are updated due to change in values */
     this.queryParamsSubscription = this.route.queryParams.subscribe(params=>{
-      console.log(params);
       this.getProgramData();
     })
   }
-  
 
   getProgramData(): void {
     const queryParams = this.route.snapshot.queryParams;
     if(Object.keys(queryParams).length == 0){
       this.queryParamsString = '';
     }else{
-      
       const queryArray = Object.keys(queryParams).map(item=>{
         return `${item}=${queryParams[item]}`
       });
-      console.log(queryArray);
       this.queryParamsString = queryArray.join('&');
-      console.log(this.queryParamsString);
     }
+    this.showLoader = true;
     this.getData.getProgramData(this.queryParamsString).subscribe((programs:Array<object>)=>{
-      console.log(programs)
       this.programData = programs;
+      this.showLoader = false;
       this.setLoadMoreStatus();
     })
   }
@@ -67,33 +61,8 @@ export class DataComponent implements OnInit {
     }
   }
 
-  flightNumber(index,item): number{
+  flightNumber(item): number{
     return item['flight_number']
   }
-
-  setLaunchYear():void {
-    this.queryParams['launch_year'] = 2014;
-    this.setQueryParameters();
-  }
-
-  launchSuccess(): void {
-    this.queryParams['launch_success'] = true;
-    this.setQueryParameters();
-  }
-
-  landingSuccess():void {
-    this.queryParams['land_success'] = false;
-    this.setQueryParameters();
-  }
-
-
-  setQueryParameters(): void {
-    this.router.navigate([],{
-      relativeTo: this.route,
-      queryParams: this.queryParams,
-      queryParamsHandling: 'merge'
-    });
-  }
-
 
 }

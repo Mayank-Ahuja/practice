@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
-import { ProgramCardComponent } from './program-card/program-card.component';
 import { FilterButtonsComponent } from './filter-buttons/filter-buttons.component';
 
 
 
 @NgModule({
-  declarations: [ProgramCardComponent, FilterButtonsComponent],
+  declarations: [FilterButtonsComponent],
   imports: [
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   exports: [
-    ProgramCardComponent,
     FilterButtonsComponent
   ]
 })
 export class SharedModule { }
+ 

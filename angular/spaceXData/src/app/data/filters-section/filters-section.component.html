@@ -1,1 +1,21 @@
-<p>filters-section works!</p>
+<div class="filterSection card">
+
+    <h3 class="card-head">Filters</h3>
+    <div class="card-body">
+        <!-- Launch Year filter buttons -->
+        <h4 class="filter-name"><span>Launch Year</span></h4>
+        <app-filter-buttons [radioButtonsData]="launchYearData" [defaultValue]="queryParamsValues['launch_year']"
+            (filterClicked)="captureFilterValue($event)"></app-filter-buttons>
+
+        <!-- Launch Success filter buttons  -->
+        <h4 class="filter-name"><span>Launch Success</span></h4>
+        <app-filter-buttons [radioButtonsData]="launchSuccessData" [defaultValue]="queryParamsValues['launch_success']"
+            (filterClicked)="captureFilterValue($event)"></app-filter-buttons>
+
+        <!-- Landing Status filter buttons -->
+        <h4 class="filter-name"><span>Landing Success</span></h4>
+        <app-filter-buttons [radioButtonsData]="landingSuccessData" [defaultValue]="queryParamsValues['land_success']"
+            (filterClicked)="captureFilterValue($event)"></app-filter-buttons>
+    </div>
+
+</div>

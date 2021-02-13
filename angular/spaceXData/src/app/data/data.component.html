@@ -1,14 +1,54 @@
-<div class="container-fluid bg-grey">
+<div class="py-3">
+    <div class="row">
+        <app-filters-section class="filter-section mb-3"></app-filters-section>
 
-    <app-filters-section></app-filters-section>
+        <div class="program-section">
+            <div class="row">
+                <ng-container *ngFor="let programs of programData | slice:0:sliceIndex; trackBy: flightNumber">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <figure class="mission-image">
+                                <img class="mission-patch" [src]="programs['links']['mission_patch_small']" [alt]="programs['mission_name']">
+                            </figure>
+                            <h5 class="mission-name">{{programs['mission_name']}} #{{programs['flight_number']}}</h5>
     
-    <ng-container *ngFor="let programs of programData | slice:0:sliceIndex; trackBy: flightNumber">
-        <app-program-card [programData]="programs"></app-program-card>
-    </ng-container>
+                            <div class="mission-info">
+                                <div>
+                                    <label class="label">Mission Ids:</label>
+                                    <ul><li class="value" *ngFor="let missionId of programs['mission_id']">{{missionId}}</li></ul>
+                                </div>
     
-    <button *ngIf="allowLoadMore" (click)="loadMore()">Load More</button>
-    <button (click)="setLaunchYear()">Launch Year - 2014</button>
-    <button (click)="launchSuccess()">Launch Success - true</button>
-    <button (click)="landingSuccess()">Landing Success - false</button>
+                                <p>
+                                    <label class="label">Launch Year:</label>
+                                    <span class="value">{{programs['launch_year']}}</span>
+                                </p>
+    
+                                <p>
+                                    <label class="label">Successful Launch:</label>
+                                    <span class="value">{{programs['launch_success']}}</span>
+                                </p>
+    
+                                <p>
+                                    <label class="label">Successful Launch:</label>
+                                    <span class="value">{{programs['rocket']['first_stage']['cores'][0]['land_success']}}</span>
+                                </p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="text-center">
+                <button *ngIf="allowLoadMore" class="loadMoreBtn" (click)="loadMore()">Load More</button>
+            </div>
+
+            <div class="loader" *ngIf="showLoader">
+                <img src="assets/images/Reload-1s-200px.gif" alt="Loading">
+            </div>
+        </div>
+
+         
+
+    </div>
+    
 </div>
-

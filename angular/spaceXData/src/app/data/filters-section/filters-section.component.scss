@@ -1,0 +1,17 @@
+@import "../../../theme.scss";
+
+.filterSection {
+    width: 100%;
+    .filter-name {
+        text-align: center;
+        margin-top: 15px;
+        margin-bottom: 10px;
+        span {
+            display: inline-block;
+            width: calc(100% - 60px);
+            border-bottom: 3px solid $grey;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+    }
+}

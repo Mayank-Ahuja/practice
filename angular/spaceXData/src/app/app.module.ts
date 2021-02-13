@@ -11,7 +11,7 @@ import { FiltersSectionComponent } from './data/filters-section/filters-section.
   declarations: [
     AppComponent,
     DataComponent,
-    FiltersSectionComponent
+    FiltersSectionComponent,
   ],
   imports: [
     BrowserModule,
