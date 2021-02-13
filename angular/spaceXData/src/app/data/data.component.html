@@ -1,11 +1,14 @@
-<p>data works!</p>
+<div class="container-fluid bg-grey">
 
-<ng-container *ngFor="let programs of programData | slice:0:sliceIndex; trackBy: flightNumber">
-    <app-program-card [programData]="programs"></app-program-card>
-</ng-container>
-
-<button *ngIf="allowLoadMore" (click)="loadMore()">Load More</button>
-<button (click)="setLaunchYear()">Launch Year - 2014</button>
-<button (click)="launchSuccess()">Launch Success - true</button>
-<button (click)="landingSuccess()">Landing Success - false</button>
+    <app-filters-section></app-filters-section>
+    
+    <ng-container *ngFor="let programs of programData | slice:0:sliceIndex; trackBy: flightNumber">
+        <app-program-card [programData]="programs"></app-program-card>
+    </ng-container>
+    
+    <button *ngIf="allowLoadMore" (click)="loadMore()">Load More</button>
+    <button (click)="setLaunchYear()">Launch Year - 2014</button>
+    <button (click)="launchSuccess()">Launch Success - true</button>
+    <button (click)="landingSuccess()">Landing Success - false</button>
+</div>
 

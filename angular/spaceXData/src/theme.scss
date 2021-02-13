@@ -1,0 +1,17 @@
+@import 'assets/scss/_variables.scss'; 
+
+.bg-grey{
+    background-color: $background;
+}
+
+.row{
+    display: flex;
+    flex-flow: column wrap;
+    >[class^="col-"]{
+        padding: 0 15px;
+    }
+}
+
+.col-12{
+    width: 100%;
+}

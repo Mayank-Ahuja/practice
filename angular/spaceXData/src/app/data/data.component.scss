@@ -1,0 +1,12 @@
+@import "../../theme";
+
+.container-fluid{
+    padding: 0 15px;
+}
+
+@media (min-width:$desktopBreakPoint){
+    .container-fluid{
+        max-width: $desktopBreakPoint;
+        margin: 0 auto;
+    }
+}
