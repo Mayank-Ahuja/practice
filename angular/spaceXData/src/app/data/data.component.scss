@@ -93,8 +93,8 @@
         width: calc(100% - 300px);
         padding: 0 15px;
         .card{
-            flex: 0 0 47%;
-            max-width: 47%;
+            flex: 0 0 46.32%;
+            max-width: 46.32%;
             margin-right: 15px;
         }
     }
@@ -104,8 +104,17 @@
 @media screen and (min-width: $tabletBreakPoint){
     .program-section{
         .card{
+            flex: 0 0 22%;
+            max-width: 22%; 
+        }
+    }
+}
+
+@media screen and (min-width: 1200px){
+    .program-section{
+        .card{
             flex: 0 0 23.48%;
-            max-width: 23.48%;
+            max-width: 23.48%; 
         }
     }
 }
