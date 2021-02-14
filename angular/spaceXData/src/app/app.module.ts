@@ -6,6 +6,7 @@ import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 import { DataComponent } from './data/data.component';
 import { FiltersSectionComponent } from './data/filters-section/filters-section.component';
+import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
  
 @NgModule({
   declarations: [
@@ -14,11 +15,11 @@ import { FiltersSectionComponent } from './data/filters-section/filters-section.
     FiltersSectionComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     SharedModule
   ],
-  providers: [],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

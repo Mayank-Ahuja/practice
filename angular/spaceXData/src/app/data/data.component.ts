@@ -24,6 +24,7 @@ export class DataComponent implements OnInit {
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.setLoadMoreStatus();
     /* subscribing to query params which gets triggered on the page load as well as when values are updated due to change in values */
     this.queryParamsSubscription = this.route.queryParams.subscribe(params=>{
       this.getProgramData();
@@ -62,6 +63,7 @@ export class DataComponent implements OnInit {
   }
 
   flightNumber(item): number{
+    console.log(item)
     return item['flight_number']
   }
 
