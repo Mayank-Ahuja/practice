@@ -1,6 +1,6 @@
 {
-  "name": "app1",
-  "short_name": "app1",
+  "name": "progressive-test",
+  "short_name": "progressive-test",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
