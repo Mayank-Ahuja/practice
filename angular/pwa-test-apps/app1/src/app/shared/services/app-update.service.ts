@@ -1,18 +1,17 @@
-import { Component } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.sass']
+
+@Injectable({
+  providedIn: 'root'
 })
-export class AppComponent {
-  title = 'progressive-test';
+export class AppUpdateService {
+
   constructor(private readonly updates: SwUpdate) { 
-    this.updates.available.subscribe(event=>{
-      console.log('current version=>', event.current, 'available version=>',event.available);
+    /* this.updates.available.subscribe(event=>{
       this.showAppUpdateAlert();
-    })
+    }) */
   }
+
   showAppUpdateAlert(){
     const confirm = window.confirm('App Update Available');
     if(confirm){

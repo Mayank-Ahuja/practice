@@ -1,0 +1,17 @@
+<div class="dialog-box-container" [ngClass]="{'d-flex': showDialog}">
+    <div class="dialog-box">
+        <h1 class="mat-dialog-title" [innerHTML]="dialogConfig['errTitle']"></h1>
+        <div class="dialog-content">
+            <p [innerHTML]="dialogConfig['errorMessage']"></p>
+        </div>
+        <div class="dialog-actions" [ngSwitch]="dialogConfig['errType']">
+            <div *ngSwitchCase="'confirm'">
+                <button mat-button (click)="acceptButton()">Ok</button>
+                <button mat-button (click)="rejectButton()">Cancel</button>
+            </div>
+            <div *ngSwitchCase="'alert'">
+                <button mat-button (click)="acceptButton()">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
