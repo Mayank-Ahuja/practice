@@ -3,7 +3,48 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  envProps: {
+    orgId: 'CHOICE',
+    appId: 'CHOICE',
+    envType:'uat',
+    //envType:'sit',
+    // envType:'prod',
+    nonEncryptPW: 'GatewayAnalyserJson?ORG_ID=' ,
+    encryptReqPW: 'GatewayAnalyserEncrypt?ORG_ID=',
+    encryptReqResPW: 'GatewayAnalyserEncryptRR?ORG_ID=',
+    storageKey: 'storagesecretkey',
+    sessionEncryptionKey: 'decimalsecretkey',
+    requestTimeout: 180000,
+    specialProcesses: ['PWAUTH','SPPRPERFORMANCEDATA'],
+    authProcess: 'PWAUTH',
+
+    appVersion: '0.0.003',
+    uat:{
+      domain: 'https://115.113.94.44',
+      apiUrl: 'https://115.113.94.44/pwchoice/',
+      fileUploadUrl: 'https://115.113.94.44/msu/management/documents/v1/uploadDocuments',
+      headerEncryption: true,
+      requestEncryption: false,
+      resposneEncryption: false
+    },
+    sit:{
+      domain: 'https://10.1.5.13',
+      apiUrl: 'https://10.1.5.13/pwchoice/',
+      fileUploadUrl: 'https://10.1.5.13/msu/management/documents/v1/uploadDocuments',
+      headerEncryption: true,
+      requestEncryption: false,
+      resposneEncryption: false
+    },
+    prod:{
+      domain: 'https://choice-act.com',
+      apiUrl: 'https://choice-act.com/pwchoice/',
+      fileUploadUrl: 'https://choice-act.com/msu/management/documents/v1/uploadDocuments',
+      headerEncryption: true,
+      requestEncryption: true,
+      resposneEncryption: true
+    }
+  }
 };
 
 /*

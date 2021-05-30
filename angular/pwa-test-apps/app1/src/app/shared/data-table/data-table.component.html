@@ -1,0 +1,127 @@
+<div class="container-fluid containerHeight">
+  <div class="table-container table-responsive" [ngClass]="{'hasTableHead': tableHead,'hasPagination':enablePagination}">
+    <div class="table-head row m-0 pb-0 align-items-center" *ngIf="tableHead">
+
+      <div class="col-12 col-sm-5 col-md-4 col-lg-5 table-name" title="{{tableDataName}}" *ngIf="tableDataName.length > 0">
+        {{tableDataName}}</div>
+
+      <mat-form-field *ngIf="enableDataSearch" class="col-12 col-sm-3 col-mg-4 m-0 col-lg-3" appearance="outline">
+        <mat-label>Filter Data</mat-label>
+        <input matInput [(ngModel)]="filterData" (keyup)="applyFilter($event)">
+      </mat-form-field>
+
+      <div class="col-12 col-sm-4 col-md-4 col-lg-4 text-center ml-auto" *ngIf="enableDataDownload">
+        <button mat-raised-button class="main-btn" (click)="downloadIntoExcel()" color="primary">
+          <i class="icon-container icon-get_app"></i> <span>Download</span>
+        </button>
+      </div>
+
+    </div>
+    <div class="table-body">
+      <table class="table" matSort mat-table [dataSource]="tableDataSource">
+
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        
+        
+        <ng-container *ngFor="let item of tableDataHeads;" >
+          <ng-container *ngIf="item != 'select'" [matColumnDef]="item">
+            <span *ngIf="enableSorting; else disableSorting">
+              <th mat-header-cell mat-sort-header *matHeaderCellDef
+                [ngClass]="{'text-center': checkIfButton(item)}">
+                {{item}} </th> 
+            </span>
+            <ng-template #disableSorting>
+              <th mat-header-cell *matHeaderCellDef
+                [ngClass]="{'text-center': checkIfButton(item)}">
+                {{item}} </th>
+            </ng-template>
+            
+            <td mat-cell *matCellDef="let element" [ngClass]="{'text-center': checkIfButton(item)}">
+              <span *ngIf="checkIfButton(item); else elseBlock">
+                <span class="button-container" *ngFor="let button of actionButtons[item | lowercase]">
+  
+                  <!-- {{button | json }} -->
+                  <span *ngIf="button['buttonType'] == 'selectFile'; else dataAction">
+                    <button *ngIf="button['buttonStyle'] == 'contain'" mat-raised-button [color]="button['mat-color']"
+                      (click)="fileInput.click()">
+                      <i class="icon-container icon-backup"></i>
+                      <span class="button-name" [ngClass]="{'ml-2': button['buttonIcon'] &&
+                          button['buttonName']}">{{button['buttonName']}}</span>
+                      <input class="getFile" #fileInput type="file"
+                        (change)="onFileInput($event,element,button['functionName'])" />
+                    </button>
+                    <button *ngIf="button['buttonStyle'] == 'outline'" mat-stroked-button [color]="button['mat-color']"
+                      (click)="fileInput.click()">
+                      <i class="icon-container icon-backup"></i>
+                      <span class="button-name" [ngClass]="{'ml-2': button['buttonIcon'] &&
+                          button['buttonName']}">{{button['buttonName']}}</span>
+                      <input class="getFile" #fileInput type="file"
+                        (change)="onFileInput($event,element,button['functionName'])" />
+                    </button>
+                    <button *ngIf="button['buttonStyle'] == 'text'" mat-button [color]="button['mat-color']"
+                      (click)="fileInput.click()">
+                      <i class="icon-container icon-backup"></i>
+                      <span class="button-name" [ngClass]="{'ml-2': button['buttonIcon'] &&
+                          button['buttonName']}">{{button['buttonName']}}</span>
+                      <input class="getFile" #fileInput type="file"
+                        (change)="onFileInput($event,element,button['functionName'])" />
+                    </button>
+                  </span>
+                  
+                  <ng-template #dataAction>
+                      <button *ngIf="button['buttonStyle'] == 'contain'" mat-raised-button [color]="button['mat-color']"
+                        (click)="callParentFunction(button['functionName'],element)" [ngClass]="{'icon-container': button['buttonIcon']}">
+                        <mat-icon>{{button['buttonIcon']}}</mat-icon>
+                        <span class="button-name" [ngClass]="{'ml-2': button['buttonIcon'] &&
+                          button['buttonName']}">{{button['buttonName']}}</span>
+                      </button>
+                      <button *ngIf="button['buttonStyle'] == 'outline'" mat-stroked-button [color]="button['mat-color']"
+                        (click)="callParentFunction(button['functionName'],element)" [ngClass]="{'icon-container':button['buttonIcon']}">
+                        <mat-icon>{{button['buttonIcon']}}</mat-icon>
+                        <span class="button-name"
+                          [ngClass]="{'ml-2': button['buttonIcon'] &&
+                          button['buttonName']}">{{button['buttonName']}}</span>
+                      </button>
+                      <button *ngIf="button['buttonStyle'] == 'text'" mat-button [color]="button['mat-color']"
+                        (click)="callParentFunction(button['functionName'],element)" [ngClass]="{'icon-container':button['buttonIcon']}">
+                        <mat-icon>{{button['buttonIcon']}}</mat-icon>
+                        <span class="button-name"
+                          [ngClass]="{'ml-2': button['buttonIcon'] && button['buttonName']}">{{button['buttonName']}}</span>
+                      </button>
+                  </ng-template>
+                  
+                </span>
+                <!-- <button mat-raised-button color="primary" class="mr-2">
+                <i class="icon-container icon-visibility"></i>
+                <span class="ml-2">View</span>
+              </button> -->
+  
+              </span>
+              <ng-template #elseBlock>
+                <span [title]="element[item]">{{element[item]}}</span>
+              </ng-template>
+            </td>
+          </ng-container>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="tableDataHeads; sticky: stickyHeader"></tr>
+        <tr mat-row *matRowDef="let row; columns: tableDataHeads;"></tr>
+      </table>
+    </div>
+    <div class="table-footer" [ngClass]="{'d-none':!enablePagination,'d-block': enablePagination}">
+      <mat-paginator [pageSize]="tablePageSize" showFirstLastButtons></mat-paginator>
+    </div>
+
+</div>
+</div>
+

@@ -1,0 +1,19 @@
+<nav class="navbar navbar-light">
+    <span class="navbar-brand"><img src="assets/images/choice_logo.png" alt=""></span>
+    <div *ngIf="userLogin" class="navbar-content ml-auto" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <button mat-button class="icon-container" [matMenuTriggerFor]="menu">
+                    <span>{{userName}}</span>
+                    <mat-icon aria-hidden="false" aria-label="User Actions">expand_more</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button class="icon-container" mat-menu-item (click)="userLogout()">
+                        <mat-icon aria-hidden="false" aria-label="Logout">power_settings_new</mat-icon>
+                        <span>Logout</span>
+                    </button>
+                </mat-menu>
+            </li>
+        </ul>
+    </div>
+</nav>

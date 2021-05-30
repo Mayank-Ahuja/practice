@@ -35,9 +35,20 @@
               "src/manifest.webmanifest"
             ],
             "styles": [
+              "src/custom-theme.scss",
               "src/styles.sass"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/PlatwareAES.js",
+              "src/assets/js/aes.js",
+              "src/assets/js/pbkdf2.js",
+              "src/assets/js/fingerprint.js",
+              "src/assets/js/sha2.js",
+              "src/assets/js/PlatwareClient.js"
+            ],
+            "allowedCommonJsDependencies":[
+              "xlsx"
+            ]
           },
           "configurations": {
             "production": {
