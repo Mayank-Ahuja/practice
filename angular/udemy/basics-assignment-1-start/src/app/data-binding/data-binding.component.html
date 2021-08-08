@@ -1,0 +1,6 @@
+<h4>Data Binding Assignment</h4>
+<input class="form-control" type="text" [(ngModel)]="userName" id="userName">
+
+<p>User name value is {{userName}}</p>
+
+<button class="btn btn-primary" [disabled]="userName.length ==0" (click)="resetText()">Reset</button>

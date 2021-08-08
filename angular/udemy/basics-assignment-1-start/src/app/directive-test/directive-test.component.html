@@ -1,0 +1,11 @@
+<div>
+    <button class="btn btn-primary" (click)="displayDetails()">display Details</button>
+    <p *ngIf="showParagraph">This is the paragraph that i will be using for directive assignment in the Angular course by Maximilian.</p>
+
+    <h6>Click counter </h6>
+    <ul>
+        <li *ngFor="let item of clickCounter">
+            <p [ngStyle]="{'backgroundColor': item>4 ?'dodgerblue':''}" [ngClass]="{'textWhite': item>4}">Display Details button has ben clicked {{item}} times</p>
+        </li>
+    </ul>
+</div>
