@@ -1,7 +1,0 @@
-{"templateData": [
-        {"attributeId": "1","columnId": "1","mandotory":"1","columnName":"emp_id","dataType": "varchar"},
-        {"attributeId": "2","columnId": "2","mandotory":"1","columnName":"emp_name","dataType": "alpha"},
-        {"attributeId": "3","columnId": "3","mandotory":"1","columnName":"emp_role","dataType": "alpha"},
-        {"attributeId": "4","columnId": "4","mandotory":"0","columnName":"date_of_joining","dataType": "date"}
-    ] 
-}
